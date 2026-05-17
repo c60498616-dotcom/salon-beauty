@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бьюро — Премиум салон красоты в Новосибирске</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#hero" class="nav-logo">Бьюро</a>
+        <ul class="nav-links">
+            <li><a href="#hero">Главная</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#gallery">Галерея</a></li>
+            <li><a href="#reviews">Отзывы</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+        <button class="nav-burger" id="burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <video class="hero-video" autoplay muted playsinline>
+        <source src="media/silk-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-sub">Премиум салон красоты в Новосибирске</p>
+        <h1 class="hero-title">Бьюро</h1>
+        <p class="hero-desc">Косметология, парикмахерский зал, маникюр и педикюр. Индивидуальный подход, безупречный сервис и атмосфера роскоши на Каменской ул., 84В.</p>
+        <a href="#contacts" class="btn">Записаться</a>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services" id="services">
+    <div class="container">
+        <p class="section-sub">Наши услуги</p>
+        <h2 class="section-title">Что мы предлагаем</h2>
+        <div class="services-grid">
+
+            <div class="service-card">
+                <div class="service-icon">✂</div>
+                <h3>Парикмахерский зал</h3>
+                <p>Стрижки, окрашивание, укладки и уход за волосами.</p>
+                <ul class="service-list">
+                    <li><span>Женская стрижка</span><span>от 2 500 ₽</span></li>
+                    <li><span>Мужская стрижка</span><span>от 2 700 ₽</span></li>
+                    <li><span>Окрашивание в один тон</span><span>от 4 400 ₽</span></li>
+                    <li><span>Укладка на брашинг</span><span>от 2 500 ₽</span></li>
+                    <li><span>Прикорневое окрашивание</span><span>от 3 000 ₽</span></li>
+                    <li><span>Молекулярное глянцевание</span><span>от 5 000 ₽</span></li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✦</div>
+                <h3>Ногтевой сервис</h3>
+                <p>Маникюр, педикюр и nail-дизайн от мастеров высшей категории.</p>
+                <ul class="service-list">
+                    <li><span>Комбинированный маникюр</span><span>от 2 000 ₽</span></li>
+                    <li><span>Классический маникюр с покрытием</span><span>от 2 500 ₽</span></li>
+                    <li><span>Педикюр</span><span>от 2 500 ₽</span></li>
+                    <li><span>Наращивание ногтей</span><span>от 3 500 ₽</span></li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">◈</div>
+                <h3>Косметология</h3>
+                <p>Процедуры по уходу за лицом и телом: биоревитализация, мезотерапия, пилинги.</p>
+                <ul class="service-list">
+                    <li><span>Биоревитализация</span><span>от 5 000 ₽</span></li>
+                    <li><span>Безинъекционная мезотерапия</span><span>от 3 500 ₽</span></li>
+                    <li><span>Мезотерапия</span><span>от 4 000 ₽</span></li>
+                    <li><span>Пилинг</span><span>от 3 000 ₽</span></li>
+                    <li><span>Плазмолифтинг</span><span>от 5 000 ₽</span></li>
+                    <li><span>Анти-age процедуры</span><span>от 4 500 ₽</span></li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">❋</div>
+                <h3>Дополнительные услуги</h3>
+                <p>Макияж, эпиляция, массаж и другие процедуры.</p>
+                <ul class="service-list">
+                    <li><span>Макияж</span><span>от 3 000 ₽</span></li>
+                    <li><span>Перманентный макияж</span><span>от 5 000 ₽</span></li>
+                    <li><span>Ламинирование ресниц</span><span>от 2 500 ₽</span></li>
+                    <li><span>Эпиляция</span><span>от 1 500 ₽</span></li>
+                    <li><span>Массаж лица</span><span>от 2 500 ₽</span></li>
+                    <li><span>Уход за телом</span><span>от 3 000 ₽</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section gallery" id="gallery">
+    <div class="container">
+        <p class="section-sub">Наши работы</p>
+        <h2 class="section-title">Галерея</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item gi-1"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop" alt="Парикмахерский зал" loading="lazy"></div>
+            <div class="gallery-item gi-2"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop" alt="Косметология" loading="lazy"></div>
+            <div class="gallery-item gi-3"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=300&fit=crop" alt="Маникюр" loading="lazy"></div>
+            <div class="gallery-item gi-4"><img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=300&fit=crop" alt="Макияж" loading="lazy"></div>
+            <div class="gallery-item gi-5"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=300&fit=crop" alt="Уход за лицом" loading="lazy"></div>
+            <div class="gallery-item gi-6"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=300&fit=crop" alt="Окрашивание волос" loading="lazy"></div>
+        </div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews" id="reviews">
+    <div class="container">
+        <p class="section-sub">Отзывы клиентов</p>
+        <h2 class="section-title">Что говорят о нас</h2>
+        <div class="reviews-grid">
+
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">«Хожу в Бьюро уже второй год. Косметолог Ольга — волшебница! После курса биоревитализации кожа буквально светится. Очень уютная атмосфера, всегда предлагают чай. Рекомендую!»</p>
+                <p class="review-author">Нина К.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">«Делала сложное окрашивание — результат превзошёл все ожидания! Мастер подобрал идеальный оттенок, волосы после процедуры живые и блестящие. Теперь только сюда.»</p>
+                <p class="review-author">Дарья М.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">«Отличный салон в центре города. Комбинированный маникюр держится больше трёх недель. Мастер Ирина — внимательная и аккуратная. Приятно, что можно записаться онлайн.»</p>
+                <p class="review-author">Александра В.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">«Привела маму на ламинирование ресниц — обе в восторге! Персонал приветливый, ценник адекватный. Удобно, что салон работает каждый день до 21:00.»</p>
+                <p class="review-author">Екатерина Л.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">★★★★☆</div>
+                <p class="review-text">«Делала мезотерапию — эффект заметен после первого сеанса. Косметолог всё подробно объясняет, подбирает индивидуальный уход. Немного неудобная парковка, но салон того стоит.»</p>
+                <p class="review-author">Ольга Т.</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">«Муж делал стрижку в Бьюро — доволен как слон! Теперь ходим вместе. Мне — на укладку, ему — на стрижку. Стильный салон, профессиональные мастера.»</p>
+                <p class="review-author">Татьяна Р.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CONTACTS -->
+<section class="section contacts" id="contacts">
+    <div class="container">
+        <p class="section-sub">Свяжитесь с нами</p>
+        <h2 class="section-title">Контакты</h2>
+        <div class="contacts-grid">
+            <div class="contacts-info">
+                <div class="contact-item">
+                    <h4>Адрес</h4>
+                    <p>г. Новосибирск, Каменская ул., 84В</p>
+                    <p>Центральный район</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Режим работы</h4>
+                    <p>Ежедневно: 9:00 — 21:00</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Онлайн-запись</h4>
+                    <p><a href="https://yandex.ru/maps/-/CPseFQMg" class="btn-inline" target="_blank">Записаться через Яндекс</a></p>
+                </div>
+                <div class="contact-item">
+                    <h4>Услуги</h4>
+                    <p>Косметология, парикмахерский зал, маникюр, педикюр, макияж, эпиляция, массаж</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Особенности</h4>
+                    <p>Можно с собакой, парковка, Wi-Fi, оплата картой</p>
+                </div>
+            </div>
+            <div class="contacts-map">
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=82.9253%2C55.0434&z=17&pt=82.9253%2C55.0434" width="100%" height="400" frameborder="0" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer-inner">
+        <p class="footer-logo">Бьюро</p>
+        <p class="footer-copy">&copy; 2026 Все права защищены</p>
+    </div>
+</footer>
+
+<script>
+// Burger menu
+const burger = document.getElementById('burger');
+const navLinks = document.querySelector('.nav-links');
+burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.classList.toggle('active');
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
+        navLinks.classList.remove('open');
+        burger.classList.remove('active');
+    });
+});
+
+// Nav shrink on scroll
+window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Fade-in on scroll
+const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.section, .service-card, .review-card, .gallery-item').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
