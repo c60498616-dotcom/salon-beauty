@@ -314,10 +314,12 @@ ul { list-style: none; }
     border-radius: 50%;
     background: var(--white);
     color: var(--text);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1;
     cursor: pointer;
     transition: var(--transition);
     display: flex; align-items: center; justify-content: center;
+    padding: 0;
 }
 .reviews-btn:hover {
     background: var(--green-dark);
