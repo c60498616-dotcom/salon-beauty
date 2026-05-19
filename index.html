@@ -46,7 +46,7 @@
     <div class="container">
         <p class="section-sub">Наши услуги</p>
         <h2 class="section-title">Что мы предлагаем</h2>
-        <div class="services-grid">
+        <div class="services-grid" id="servicesGrid">
 
             <div class="service-card">
                 <div class="service-icon">✂</div>
@@ -112,7 +112,7 @@
     <div class="container">
         <p class="section-sub">Наши работы</p>
         <h2 class="section-title">Галерея</h2>
-        <div class="gallery-grid">
+        <div class="gallery-grid" id="galleryGrid">
             <div class="gallery-item gi-1"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop" alt="Парикмахерский зал" loading="lazy"></div>
             <div class="gallery-item gi-2"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop" alt="Косметология" loading="lazy"></div>
             <div class="gallery-item gi-3"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=300&fit=crop" alt="Маникюр" loading="lazy"></div>
@@ -129,7 +129,7 @@
         <p class="section-sub">Отзывы клиентов</p>
         <h2 class="section-title">Что говорят о нас</h2>
         <div class="reviews-carousel">
-            <div class="reviews-track" id="reviewsTrack">
+            <div class="reviews-track" id="reviewsTrack" data-dynamic="true">
 
                 <div class="reviews-slide">
                     <div class="review-card">
@@ -209,7 +209,7 @@
         <p class="section-sub">Свяжитесь с нами</p>
         <h2 class="section-title">Контакты</h2>
         <div class="contacts-grid">
-            <div class="contacts-info">
+            <div class="contacts-info" id="contactsInfo">
                 <div class="contact-item">
                     <h4>Адрес</h4>
                     <p>г. Новосибирск, Каменская ул., 84В</p>
@@ -340,6 +340,107 @@ track.addEventListener('touchend', e => {
 }, { passive: true });
 
 goToSlide(0);
+
+// === Dynamic data from admin panel ===
+(function() {
+    const saved = localStorage.getItem('bureau-data');
+    if (!saved) return;
+    try {
+        const data = JSON.parse(saved);
+
+        // Services
+        if (data.services) {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = data.services.map(s => `
+                <div class="service-card">
+                    <div class="service-icon">${s.icon}</div>
+                    <h3>${s.title}</h3>
+                    <p>${s.desc}</p>
+                    <ul class="service-list">
+                        ${s.prices.map(p => `<li><span>${p.name}</span><span>${p.price}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // Gallery
+        if (data.gallery) {
+            const grid = document.getElementById('galleryGrid');
+            const giClasses = ['gi-1','gi-2','gi-3','gi-4','gi-5','gi-6'];
+            grid.innerHTML = data.gallery.map((g, i) => `
+                <div class="gallery-item ${giClasses[i] || ''}"><img src="${g.url}" alt="${g.alt}" loading="lazy"></div>
+            `).join('');
+        }
+
+        // Contacts
+        if (data.contacts) {
+            const c = data.contacts;
+            const info = document.getElementById('contactsInfo');
+            info.innerHTML = `
+                <div class="contact-item"><h4>Адрес</h4><p>${c.address}</p><p>${c.district}</p></div>
+                <div class="contact-item"><h4>Телефон</h4><p><a href="tel:${c.phone1.replace(/[^+\d]/g,'')}">${c.phone1}</a></p><p><a href="tel:${c.phone2.replace(/[^+\d]/g,'')}">${c.phone2}</a></p></div>
+                <div class="contact-item"><h4>Мессенджеры</h4><p><a href="https://wa.me/${c.whatsapp}" target="_blank">WhatsApp</a></p><p><a href="${c.telegram}" target="_blank">Telegram</a></p></div>
+                <div class="contact-item"><h4>Режим работы</h4><p>${c.hours}</p></div>
+                <div class="contact-item"><h4>Онлайн-запись</h4><p><a href="${c.booking}" class="btn-inline" target="_blank">Записаться через Яндекс</a></p></div>
+                <div class="contact-item"><h4>Особенности</h4><p>${c.features}</p></div>
+            `;
+            // Update hero
+            document.querySelector('.hero-sub').textContent = c.subtitle;
+            document.querySelector('.hero-title').textContent = c.name;
+            document.querySelector('.hero-desc').textContent = c.description;
+            // Update map
+            const coords = c.mapCoords.split(',');
+            const mapIframe = document.querySelector('.contacts-map iframe');
+            if (mapIframe && coords.length === 2) {
+                mapIframe.src = `https://yandex.ru/map-widget/v1/?ll=${coords[0]}%2C${coords[1]}&z=${c.mapZoom}&pt=${coords[0]}%2C${coords[1]}`;
+            }
+            // Update nav logo
+            document.querySelector('.nav-logo').textContent = c.name;
+            document.querySelector('.footer-logo').textContent = c.name;
+        }
+
+        // Reviews
+        if (data.reviews) {
+            const track = document.getElementById('reviewsTrack');
+            // Group into slides of 3
+            const slides = [];
+            for (let i = 0; i < data.reviews.length; i += 3) {
+                slides.push(data.reviews.slice(i, i + 3));
+            }
+            track.innerHTML = slides.map(group => `
+                <div class="reviews-slide">
+                    ${group.map(r => `
+                        <div class="review-card">
+                            <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
+                            <p class="review-text">«${r.text}»</p>
+                            <p class="review-author">${r.author}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+
+            // Reinit carousel
+            const newSlides = track.querySelectorAll('.reviews-slide');
+            const dotsContainer = document.getElementById('reviewsDots');
+            dotsContainer.innerHTML = '';
+            newSlides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'reviews-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Слайд ${i + 1}`);
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            });
+            goToSlide(0);
+        }
+
+        // Reinit observers for dynamic content
+        const obs2 = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.service-card, .review-card, .gallery-item').forEach(el => obs2.observe(el));
+
+    } catch(e) { console.error('Data load error:', e); }
+})();
 </script>
 
 </body>

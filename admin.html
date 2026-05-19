@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бьюро — Админ-панель</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: #f5f5f0; color: #2c2c2c; }
+
+        .admin-header {
+            background: #3d3d3d;
+            color: #f5f5f0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 { font-size: 18px; font-weight: 500; }
+        .admin-header a { color: #c9a96e; text-decoration: none; font-size: 14px; }
+
+        .admin-nav {
+            background: #fff;
+            border-bottom: 1px solid #e0e0d8;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+        }
+        .admin-nav button {
+            background: none;
+            border: none;
+            padding: 14px 24px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .admin-nav button.active {
+            color: #3d3d3d;
+            border-bottom-color: #c9a96e;
+            font-weight: 500;
+        }
+
+        .admin-main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0d8;
+        }
+        .card h3 { font-size: 15px; margin-bottom: 12px; color: #3d3d3d; }
+
+        label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; }
+        input, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        textarea { resize: vertical; min-height: 60px; }
+
+        .row { display: flex; gap: 12px; }
+        .row > * { flex: 1; }
+
+        .btn-save {
+            background: #c9a96e;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-save:hover { background: #b8944f; }
+
+        .btn-danger {
+            background: #d44;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background: #3d3d3d;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .service-block, .review-block, .photo-block {
+            border: 1px solid #e8e8e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #fafaf6;
+        }
+
+        .service-block h4, .review-block h4, .photo-block h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .price-row input { margin-bottom: 0; }
+        .price-row .btn-danger { flex-shrink: 0; }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #3d3d3d;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+        .toast.show { opacity: 1; }
+
+        .actions-bar {
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            padding: 16px 0;
+            border-top: 1px solid #e0e0d8;
+            display: flex;
+            gap: 12px;
+        }
+
+        .export-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-header">
+    <h1>Бьюро — Админ-панель</h1>
+    <a href="index.html">Открыть сайт →</a>
+</div>
+
+<div class="admin-nav">
+    <button class="active" data-panel="services">Услуги и цены</button>
+    <button data-panel="gallery">Галерея</button>
+    <button data-panel="contacts">Контакты</button>
+    <button data-panel="reviews">Отзывы</button>
+</div>
+
+<div class="admin-main">
+
+    <!-- SERVICES -->
+    <div class="panel active" id="panel-services">
+        <div id="services-list"></div>
+        <button class="btn-add" onclick="addService()">+ Добавить категорию</button>
+        <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">Сохранить</button>
+            <button class="export-btn" onclick="exportData()">Экспорт JSON</button>
+            <button class="export-btn" onclick="importData()">Импорт JSON</button>
+            <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+        </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="panel" id="panel-gallery">
+        <div id="gallery-list"></div>
+        <button class="btn-add" onclick="addPhoto()">+ Добавить фото</button>
+        <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">Сохранить</button>
+        </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="panel" id="panel-contacts">
+        <div class="card">
+            <h3>Основная информация</h3>
+            <label>Название</label>
+            <input id="c-name" value="Бьюро">
+            <label>Описание (подзаголовок)</label>
+            <input id="c-subtitle" value="Премиум салон красоты в Новосибирске">
+            <label>Описание (hero)</label>
+            <textarea id="c-description">Косметология, парикмахерский зал, маникюр и педикюр. Индивидуальный подход, безупречный сервис и атмосфера роскоши на Каменской ул., 84В.</textarea>
+        </div>
+        <div class="card">
+            <h3>Контакты</h3>
+            <label>Адрес</label>
+            <input id="c-address" value="г. Новосибирск, Каменская ул., 84В">
+            <label>Район</label>
+            <input id="c-district" value="Центральный район">
+            <div class="row">
+                <div>
+                    <label>Телефон 1</label>
+                    <input id="c-phone1" value="+7 (903) 903-24-27">
+                </div>
+                <div>
+                    <label>Телефон 2</label>
+                    <input id="c-phone2" value="+7 (383) 224-13-84">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>WhatsApp (номер)</label>
+                    <input id="c-whatsapp" value="79039032427">
+                </div>
+                <div>
+                    <label>Telegram (ссылка)</label>
+                    <input id="c-telegram" value="https://t.me/+79039032427">
+                </div>
+            </div>
+            <label>Режим работы</label>
+            <input id="c-hours" value="Ежедневно: 9:00 — 21:00">
+            <label>Ссылка на онлайн-запись</label>
+            <input id="c-booking" value="https://yandex.ru/maps/-/CPseFQMg">
+            <label>Особенности</label>
+            <input id="c-features" value="Можно с собакой, парковка, Wi-Fi, оплата картой">
+        </div>
+        <div class="card">
+            <h3>Карта (Yandex Maps embed)</h3>
+            <label>Координаты (ll)</label>
+            <input id="c-map-coords" value="82.9253,55.0434">
+            <label>Зум</label>
+            <input id="c-map-zoom" value="17">
+        </div>
+        <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">Сохранить</button>
+        </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="panel" id="panel-reviews">
+        <div id="reviews-list"></div>
+        <button class="btn-add" onclick="addReview()">+ Добавить отзыв</button>
+        <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">Сохранить</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast">Сохранено!</div>
+
+<script>
+// Default data
+const defaultData = {
+    services: [
+        {
+            icon: '✂',
+            title: 'Парикмахерский зал',
+            desc: 'Стрижки, окрашивание, укладки и уход за волосами.',
+            prices: [
+                { name: 'Женская стрижка', price: 'от 2 500 ₽' },
+                { name: 'Мужская стрижка', price: 'от 2 700 ₽' },
+                { name: 'Окрашивание в один тон', price: 'от 5 000 ₽' },
+                { name: 'Укладка на брашинг', price: 'от 2 500 ₽' },
+                { name: 'Укладка горячими инструментами', price: 'от 2 700 ₽' },
+                { name: 'Прикорневое окрашивание', price: 'от 4 400 ₽' },
+                { name: 'Молекулярное глянцевание', price: 'от 5 000 ₽' }
+            ]
+        },
+        {
+            icon: '✦',
+            title: 'Ногтевой сервис',
+            desc: 'Маникюр, педикюр и nail-дизайн от мастеров высшей категории.',
+            prices: [
+                { name: 'Комбинированный маникюр', price: 'от 2 000 ₽' },
+                { name: 'Классический маникюр с покрытием', price: 'от 2 500 ₽' },
+                { name: 'Педикюр', price: 'от 2 500 ₽' },
+                { name: 'Наращивание ногтей', price: 'от 3 500 ₽' }
+            ]
+        },
+        {
+            icon: '◈',
+            title: 'Косметология',
+            desc: 'Процедуры по уходу за лицом и телом: биоревитализация, мезотерапия, пилинги.',
+            prices: [
+                { name: 'Биоревитализация', price: 'от 5 000 ₽' },
+                { name: 'Безинъекционная мезотерапия', price: 'от 3 500 ₽' },
+                { name: 'Мезотерапия', price: 'от 4 000 ₽' },
+                { name: 'Пилинг', price: 'от 3 000 ₽' },
+                { name: 'Плазмолифтинг', price: 'от 5 000 ₽' },
+                { name: 'Анти-age процедуры', price: 'от 4 500 ₽' }
+            ]
+        },
+        {
+            icon: '❋',
+            title: 'Дополнительные услуги',
+            desc: 'Макияж, эпиляция, массаж и другие процедуры.',
+            prices: [
+                { name: 'Макияж', price: 'от 3 000 ₽' },
+                { name: 'Перманентный макияж', price: 'от 5 000 ₽' },
+                { name: 'Ламинирование ресниц', price: 'от 2 500 ₽' },
+                { name: 'Эпиляция', price: 'от 1 500 ₽' },
+                { name: 'Массаж лица', price: 'от 2 500 ₽' },
+                { name: 'Уход за телом', price: 'от 3 000 ₽' }
+            ]
+        }
+    ],
+    gallery: [
+        { url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop', alt: 'Парикмахерский зал' },
+        { url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop', alt: 'Косметология' },
+        { url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=300&fit=crop', alt: 'Маникюр' },
+        { url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=300&fit=crop', alt: 'Макияж' },
+        { url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=300&fit=crop', alt: 'Уход за лицом' },
+        { url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=300&fit=crop', alt: 'Окрашивание волос' }
+    ],
+    contacts: {
+        name: 'Бьюро',
+        subtitle: 'Премиум салон красоты в Новосибирске',
+        description: 'Косметология, парикмахерский зал, маникюр и педикюр. Индивидуальный подход, безупречный сервис и атмосфера роскоши на Каменской ул., 84В.',
+        address: 'г. Новосибирск, Каменская ул., 84В',
+        district: 'Центральный район',
+        phone1: '+7 (903) 903-24-27',
+        phone2: '+7 (383) 224-13-84',
+        whatsapp: '79039032427',
+        telegram: 'https://t.me/+79039032427',
+        hours: 'Ежедневно: 9:00 — 21:00',
+        booking: 'https://yandex.ru/maps/-/CPseFQMg',
+        features: 'Можно с собакой, парковка, Wi-Fi, оплата картой',
+        mapCoords: '82.9253,55.0434',
+        mapZoom: '17'
+    },
+    reviews: [
+        { stars: 5, text: 'Хожу в Бьюро уже второй год. Косметолог Ольга — волшебница! После курса биоревитализации кожа буквально светится. Очень уютная атмосфера, всегда предлагают чай. Рекомендую!', author: 'Нина К.' },
+        { stars: 5, text: 'Делала сложное окрашивание — результат превзошёл все ожидания! Мастер подобрал идеальный оттенок, волосы после процедуры живые и блестящие. Теперь только сюда.', author: 'Дарья М.' },
+        { stars: 5, text: 'Отличный салон в центре города. Комбинированный маникюр держится больше трёх недель. Мастер Ирина — внимательная и аккуратная. Приятно, что можно записаться онлайн.', author: 'Александра В.' },
+        { stars: 5, text: 'Привела маму на ламинирование ресниц — обе в восторге! Персонал приветливый, ценник адекватный. Удобно, что салон работает каждый день до 21:00.', author: 'Екатерина Л.' },
+        { stars: 4, text: 'Делала мезотерапию — эффект заметен после первого сеанса. Косметолог всё подробно объясняет, подбирает индивидуальный уход. Немного неудобная парковка, но салон того стоит.', author: 'Ольга Т.' },
+        { stars: 5, text: 'Муж делал стрижку в Бьюро — доволен как слон! Теперь ходим вместе. Мне — на укладку, ему — на стрижку. Стильный салон, профессиональные мастера.', author: 'Татьяна Р.' },
+        { stars: 5, text: 'Первый раз была в Бьюро — подруга посоветовала. Сделали плазмолифтинг, результат просто вау! Кожа подтянулась, мелкие морщинки разгладились. Врач всё объяснила, никакой боли.', author: 'Ирина Д.' },
+        { stars: 5, text: 'Делаю перманентный макияж бровей у мастеров Бьюро уже третий раз. Каждый раз идеальная форма и цвет. Мастер подбирает оттенок под цвет волос и кожи. Никаких жёлтых или рыжих оттенков!', author: 'Мария К.' },
+        { stars: 5, text: 'Привела дочку на ламинирование ресниц — результат шикарный! Ресницы длинные, изогнутые, держатся больше месяца. Дочка в восторге, я тоже. Спасибо Бьюро!', author: 'Анна П.' },
+        { stars: 4, text: 'Хожу на педикюр уже полгода. Мастер Оксана — настоящий профессионал. Всегда аккуратно, стерильно, без боли. Единственный минус — иногда сложно записаться на удобное время.', author: 'Светлана М.' }
+    ]
+};
+
+// Load data
+function loadData() {
+    const saved = localStorage.getItem('bureau-data');
+    return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultData));
+}
+
+let data = loadData();
+
+// Tab switching
+document.querySelectorAll('.admin-nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-nav button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+    });
+});
+
+// Toast
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg || 'Сохранено!';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// === SERVICES ===
+function renderServices() {
+    const list = document.getElementById('services-list');
+    list.innerHTML = data.services.map((s, si) => `
+        <div class="service-block">
+            <h4>
+                <span>Категория ${si + 1}</span>
+                <button class="btn-danger" onclick="removeService(${si})">Удалить</button>
+            </h4>
+            <div class="row">
+                <div><label>Иконка</label><input value="${s.icon}" onchange="data.services[${si}].icon=this.value"></div>
+                <div><label>Название</label><input value="${s.title}" onchange="data.services[${si}].title=this.value"></div>
+            </div>
+            <label>Описание</label>
+            <input value="${s.desc}" onchange="data.services[${si}].desc=this.value">
+            <label>Услуги и цены:</label>
+            <div id="prices-${si}">
+                ${s.prices.map((p, pi) => `
+                    <div class="price-row">
+                        <input value="${p.name}" placeholder="Название" onchange="data.services[${si}].prices[${pi}].name=this.value">
+                        <input value="${p.price}" placeholder="Цена" style="max-width:160px" onchange="data.services[${si}].prices[${pi}].price=this.value">
+                        <button class="btn-danger" onclick="removePrice(${si},${pi})">×</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn-add" onclick="addPrice(${si})" style="margin-top:8px">+ Добавить услугу</button>
+        </div>
+    `).join('');
+}
+
+function addService() {
+    data.services.push({ icon: '✦', title: 'Новая категория', desc: '', prices: [] });
+    renderServices();
+}
+
+function removeService(i) {
+    if (confirm('Удалить категорию?')) {
+        data.services.splice(i, 1);
+        renderServices();
+    }
+}
+
+function addPrice(si) {
+    data.services[si].prices.push({ name: '', price: '' });
+    renderServices();
+}
+
+function removePrice(si, pi) {
+    data.services[si].prices.splice(pi, 1);
+    renderServices();
+}
+
+// === GALLERY ===
+function renderGallery() {
+    const list = document.getElementById('gallery-list');
+    list.innerHTML = data.gallery.map((g, i) => `
+        <div class="photo-block">
+            <h4>
+                <span>Фото ${i + 1}</span>
+                <button class="btn-danger" onclick="removePhoto(${i})">Удалить</button>
+            </h4>
+            <div style="display:flex;gap:12px;align-items:flex-start">
+                <img src="${g.url}" alt="${g.alt}" style="width:100px;height:75px;object-fit:cover;border-radius:4px">
+                <div style="flex:1">
+                    <label>URL</label>
+                    <input value="${g.url}" onchange="data.gallery[${i}].url=this.value">
+                    <label>Описание (alt)</label>
+                    <input value="${g.alt}" onchange="data.gallery[${i}].alt=this.value">
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addPhoto() {
+    data.gallery.push({ url: '', alt: '' });
+    renderGallery();
+}
+
+function removePhoto(i) {
+    if (confirm('Удалить фото?')) {
+        data.gallery.splice(i, 1);
+        renderGallery();
+    }
+}
+
+// === CONTACTS ===
+function renderContacts() {
+    const c = data.contacts;
+    document.getElementById('c-name').value = c.name;
+    document.getElementById('c-subtitle').value = c.subtitle;
+    document.getElementById('c-description').value = c.description;
+    document.getElementById('c-address').value = c.address;
+    document.getElementById('c-district').value = c.district;
+    document.getElementById('c-phone1').value = c.phone1;
+    document.getElementById('c-phone2').value = c.phone2;
+    document.getElementById('c-whatsapp').value = c.whatsapp;
+    document.getElementById('c-telegram').value = c.telegram;
+    document.getElementById('c-hours').value = c.hours;
+    document.getElementById('c-booking').value = c.booking;
+    document.getElementById('c-features').value = c.features;
+    document.getElementById('c-map-coords').value = c.mapCoords;
+    document.getElementById('c-map-zoom').value = c.mapZoom;
+}
+
+function collectContacts() {
+    data.contacts = {
+        name: document.getElementById('c-name').value,
+        subtitle: document.getElementById('c-subtitle').value,
+        description: document.getElementById('c-description').value,
+        address: document.getElementById('c-address').value,
+        district: document.getElementById('c-district').value,
+        phone1: document.getElementById('c-phone1').value,
+        phone2: document.getElementById('c-phone2').value,
+        whatsapp: document.getElementById('c-whatsapp').value,
+        telegram: document.getElementById('c-telegram').value,
+        hours: document.getElementById('c-hours').value,
+        booking: document.getElementById('c-booking').value,
+        features: document.getElementById('c-features').value,
+        mapCoords: document.getElementById('c-map-coords').value,
+        mapZoom: document.getElementById('c-map-zoom').value
+    };
+}
+
+// === REVIEWS ===
+function renderReviews() {
+    const list = document.getElementById('reviews-list');
+    list.innerHTML = data.reviews.map((r, i) => `
+        <div class="review-block">
+            <h4>
+                <span>Отзыв ${i + 1}</span>
+                <button class="btn-danger" onclick="removeReview(${i})">Удалить</button>
+            </h4>
+            <div class="row">
+                <div>
+                    <label>Автор</label>
+                    <input value="${r.author}" onchange="data.reviews[${i}].author=this.value">
+                </div>
+                <div>
+                    <label>Звёзды (1-5)</label>
+                    <input type="number" min="1" max="5" value="${r.stars}" onchange="data.reviews[${i}].stars=+this.value">
+                </div>
+            </div>
+            <label>Текст</label>
+            <textarea onchange="data.reviews[${i}].text=this.value">${r.text}</textarea>
+        </div>
+    `).join('');
+}
+
+function addReview() {
+    data.reviews.push({ stars: 5, text: '', author: '' });
+    renderReviews();
+}
+
+function removeReview(i) {
+    if (confirm('Удалить отзыв?')) {
+        data.reviews.splice(i, 1);
+        renderReviews();
+    }
+}
+
+// === SAVE / EXPORT / IMPORT ===
+function saveAll() {
+    collectContacts();
+    localStorage.setItem('bureau-data', JSON.stringify(data));
+    showToast('Сохранено!');
+}
+
+function exportData() {
+    collectContacts();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'bureau-data.json';
+    a.click();
+}
+
+function importData() {
+    document.getElementById('importFile').click();
+}
+
+function handleImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        try {
+            data = JSON.parse(ev.target.result);
+            localStorage.setItem('bureau-data', JSON.stringify(data));
+            renderAll();
+            showToast('Данные импортированы!');
+        } catch (err) {
+            alert('Ошибка: неверный JSON файл');
+        }
+    };
+    reader.readAsText(file);
+}
+
+function renderAll() {
+    renderServices();
+    renderGallery();
+    renderContacts();
+    renderReviews();
+}
+
+// Init
+renderAll();
+</script>
+
+</body>
+</html>
