@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+    <!-- Background -->
+    <rect width="400" height="600" fill="#fff"/>
+
+    <!-- Header -->
+    <rect width="400" height="120" fill="#1a1a1a"/>
+    <text x="200" y="50" font-family="Georgia, serif" font-size="36" font-weight="400" letter-spacing="8" fill="#fff" text-anchor="middle">ELL</text>
+    <text x="200" y="70" font-family="Arial, sans-serif" font-size="8" letter-spacing="5" fill="#999" text-anchor="middle">САЛОН КРАСОТЫ</text>
+    <text x="200" y="100" font-family="Arial, sans-serif" font-size="12" fill="#b8a88a" text-anchor="middle">ПРАЙС-ЛИСТ</text>
+
+    <!-- Category 1 -->
+    <text x="30" y="160" font-family="Georgia, serif" font-size="14" font-weight="600" fill="#1a1a1a">СТРИЖКИ И УКЛАДКИ</text>
+    <line x1="30" y1="170" x2="370" y2="170" stroke="#e0e0e0" stroke-width="0.5"/>
+
+    <text x="30" y="195" font-family="Arial, sans-serif" font-size="11" fill="#333">Женская стрижка</text>
+    <text x="370" y="195" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 5 000 ₽</text>
+
+    <text x="30" y="220" font-family="Arial, sans-serif" font-size="11" fill="#333">Мужская стрижка</text>
+    <text x="370" y="220" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 3 500 ₽</text>
+
+    <text x="30" y="245" font-family="Arial, sans-serif" font-size="11" fill="#333">Вечерняя укладка</text>
+    <text x="370" y="245" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 4 000 ₽</text>
+
+    <!-- Category 2 -->
+    <text x="30" y="285" font-family="Georgia, serif" font-size="14" font-weight="600" fill="#1a1a1a">ОКРАШИВАНИЕ</text>
+    <line x1="30" y1="295" x2="370" y2="295" stroke="#e0e0e0" stroke-width="0.5"/>
+
+    <text x="30" y="320" font-family="Arial, sans-serif" font-size="11" fill="#333">Окрашивание в один тон</text>
+    <text x="370" y="320" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 8 000 ₽</text>
+
+    <text x="30" y="345" font-family="Arial, sans-serif" font-size="11" fill="#333">Сложное окрашивание</text>
+    <text x="370" y="345" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 15 000 ₽</text>
+
+    <text x="30" y="370" font-family="Arial, sans-serif" font-size="11" fill="#333">Тонирование</text>
+    <text x="370" y="370" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 6 000 ₽</text>
+
+    <!-- Category 3 -->
+    <text x="30" y="410" font-family="Georgia, serif" font-size="14" font-weight="600" fill="#1a1a1a">МАНИКЮР</text>
+    <line x1="30" y1="420" x2="370" y2="420" stroke="#e0e0e0" stroke-width="0.5"/>
+
+    <text x="30" y="445" font-family="Arial, sans-serif" font-size="11" fill="#333">Классический маникюр</text>
+    <text x="370" y="445" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 2 500 ₽</text>
+
+    <text x="30" y="470" font-family="Arial, sans-serif" font-size="11" fill="#333">Маникюр с покрытием</text>
+    <text x="370" y="470" font-family="Arial, sans-serif" font-size="11" fill="#333" text-anchor="end">от 3 800 ₽</text>
+
+    <!-- Footer -->
+    <rect x="0" y="540" width="400" height="60" fill="#1a1a1a"/>
+    <text x="200" y="565" font-family="Arial, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">+7 (843) 260-95-97</text>
+    <text x="200" y="585" font-family="Arial, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">г. Казань, ул. Галиаскара Камала, 18</text>
+</svg>

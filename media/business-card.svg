@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
+    <!-- Card background -->
+    <rect width="400" height="250" fill="#1a1a1a" rx="8"/>
+
+    <!-- Logo area -->
+    <text x="30" y="60" font-family="Georgia, serif" font-size="48" font-weight="400" letter-spacing="10" fill="#fff">ELL</text>
+
+    <!-- Decorative line -->
+    <line x1="30" y1="70" x2="150" y2="70" stroke="#b8a88a" stroke-width="0.5"/>
+
+    <!-- Tagline -->
+    <text x="30" y="85" font-family="Arial, sans-serif" font-size="7" letter-spacing="5" fill="#999">САЛОН КРАСОТЫ</text>
+
+    <!-- Contact info -->
+    <text x="30" y="140" font-family="Arial, sans-serif" font-size="10" fill="#ccc">+7 (843) 260-95-97</text>
+    <text x="30" y="160" font-family="Arial, sans-serif" font-size="10" fill="#ccc">г. Казань, ул. Галиаскара Камала, 18</text>
+    <text x="30" y="180" font-family="Arial, sans-serif" font-size="10" fill="#ccc">Ежедневно: 10:00 — 20:00</text>
+
+    <!-- QR code placeholder -->
+    <rect x="320" y="120" width="60" height="60" fill="#fff" rx="4"/>
+    <text x="350" y="155" font-family="Arial, sans-serif" font-size="8" fill="#1a1a1a" text-anchor="middle">QR</text>
+
+    <!-- Website -->
+    <text x="30" y="220" font-family="Arial, sans-serif" font-size="9" letter-spacing="3" fill="#b8a88a">ell-salon.ru</text>
+</svg>
